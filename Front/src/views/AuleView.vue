@@ -51,6 +51,17 @@ export default {
       selectedAula: null
     }
   },
+  async mounted() {
+    const res = await fetch(
+      `http://localhost:3000/userInfo`,
+      { credentials: "include" }
+    );
+    if (!res.ok) {
+      this.$router.push('/');
+      return null;
+    }
+    this.user = await res.json();
+  },
   computed: {
     aulePerEdificio() {
       let result = {};

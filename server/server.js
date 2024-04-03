@@ -6,9 +6,15 @@ require('./passport');
 const cors = require('cors');
 
 const app = express();
+
+app.use(cors({
+    origin: 'http://localhost:8080', // o l'URL del tuo client
+    credentials: true
+  }));
+
 app.use(
     cors({
-      origin: 'http://localhost:5173',
+      origin: 'http://localhost:8080',
       credentials: true,
     })
   );
@@ -35,8 +41,7 @@ const isLoggedIn = (req, res, next) => {
 
 app.get('/google',
     passport.authenticate('google', {
-            scope:
-                ['email', 'profile']
+            scope: ['email', 'profile']
         }
 ));
 
@@ -46,7 +51,7 @@ app.get('/google/callback',
     }),
     function (req, res) {
         const userInfo = req.user;
-        res.redirect('http://localhost:5173');
+        res.redirect('http://localhost:8080/');
     }
 );
 
